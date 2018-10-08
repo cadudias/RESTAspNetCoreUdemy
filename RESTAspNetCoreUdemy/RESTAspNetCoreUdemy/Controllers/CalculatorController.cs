@@ -8,13 +8,26 @@ namespace RESTAspNetCoreUdemy.Controllers
     public class CalculatorController : ControllerBase
     {
         // GET api/values
-        [HttpGet("{firstNumber}/{secondNumber}")]
+        [HttpGet("sum/{firstNumber}/{secondNumber}")]
         public ActionResult<IEnumerable<string>> Sum(string firstNumber, string secondNumber)
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
                 var sum = ConvertoToDecimal(firstNumber) + ConvertoToDecimal(secondNumber);
                 return Ok(sum.ToString());
+            }
+
+            return BadRequest("Invalid Input");
+        }
+
+        // GET api/values
+        [HttpGet("subtraction/{firstNumber}/{secondNumber}")]
+        public ActionResult<IEnumerable<string>> Subtraction(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var sub = ConvertoToDecimal(firstNumber) - ConvertoToDecimal(secondNumber);
+                return Ok(sub.ToString());
             }
 
             return BadRequest("Invalid Input");
@@ -38,7 +51,7 @@ namespace RESTAspNetCoreUdemy.Controllers
                 return decimalValue;
             }
 
-            return decimalValue;
+            return 0;
         }
 
         // GET api/values/5
