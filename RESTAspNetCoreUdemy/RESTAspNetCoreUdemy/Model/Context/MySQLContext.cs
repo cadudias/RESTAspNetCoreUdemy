@@ -12,6 +12,9 @@ namespace RESTAspNetCoreUdemy.Model.Context
         {
         }
 
-        public DbSet<Person> Persons;
+        public DbSet<Person> Persons
+        {
+            get; set;
+        }
     }
 }

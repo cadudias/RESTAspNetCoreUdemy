@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTAspNetCoreUdemy.Model;
 using RESTAspNetCoreUdemy.Services;
-using System.Collections.Generic;
 
 namespace RESTAspNetCoreUdemy.Controllers
 {
@@ -18,9 +17,9 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         // GET: api/Person
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(_personService.FindAll());
         }
 
         // GET: api/Person/5

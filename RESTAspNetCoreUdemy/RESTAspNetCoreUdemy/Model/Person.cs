@@ -2,7 +2,7 @@
 {
     public class Person
     {
-        public long Id
+        public long? Id
         {
             get; set;
         }
