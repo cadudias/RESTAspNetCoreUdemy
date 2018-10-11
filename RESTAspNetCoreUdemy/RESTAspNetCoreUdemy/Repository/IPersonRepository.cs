@@ -1,9 +1,9 @@
 ﻿using RESTAspNetCoreUdemy.Model;
 using System.Collections.Generic;
 
-namespace RESTAspNetCoreUdemy.Services
+namespace RESTAspNetCoreUdemy.Repository
 {
-    public interface IPersonService
+    public interface IPersonRepository
     {
         Person Create(Person person);
 
@@ -14,5 +14,7 @@ namespace RESTAspNetCoreUdemy.Services
         Person Update(Person person);
 
         void Delete(long id);
+
+        bool Exists(long? id);
     }
 }

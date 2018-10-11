@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RESTAspNetCoreUdemy.Business;
+using RESTAspNetCoreUdemy.Business.Implementations;
 using RESTAspNetCoreUdemy.Model.Context;
-using RESTAspNetCoreUdemy.Services;
-using RESTAspNetCoreUdemy.Services.Implementations;
+using RESTAspNetCoreUdemy.Repository;
+using RESTAspNetCoreUdemy.Repository.Implementations;
 
 namespace RESTAspNetCoreUdemy
 {
@@ -28,7 +30,10 @@ namespace RESTAspNetCoreUdemy
             var connection = Configuration["MySqlConnection:MySqlConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
 
-            services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IPersonBusiness, PersonBusiness>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+
+            services.AddApiVersioning();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

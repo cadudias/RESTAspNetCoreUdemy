@@ -1,32 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RESTAspNetCoreUdemy.Business;
 using RESTAspNetCoreUdemy.Model;
-using RESTAspNetCoreUdemy.Services;
 
 namespace RESTAspNetCoreUdemy.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     [ApiController]
     public class PersonsController : ControllerBase
     {
-        public IPersonService _personService;
+        public IPersonBusiness _personBusiness;
 
-        public PersonsController(IPersonService personService)
+        public PersonsController(IPersonBusiness personBusiness)
         {
-            _personService = personService;
+            _personBusiness = personBusiness;
         }
 
         // GET: api/Person
-        [HttpGet]
+        [HttpGet("v1")]
         public IActionResult Get()
         {
-            return Ok(_personService.FindAll());
+            return Ok(_personBusiness.FindAll());
         }
 
         // GET: api/Person/5
-        [HttpGet("{id}")]
+        [HttpGet("v1/{id}")]
         public IActionResult Get(int id)
         {
-            var person = _personService.FindById(id);
+            var person = _personBusiness.FindById(id);
             if (person == null)
             {
                 return NotFound();
@@ -36,32 +37,39 @@ namespace RESTAspNetCoreUdemy.Controllers
         }
 
         // POST: api/Person
-        [HttpPost]
+        [HttpPost("v1")]
         public IActionResult Post([FromBody] Person person)
         {
             if (person == null)
             {
                 return BadRequest();
             }
-            return new ObjectResult(_personService.Create(person));
+            return new ObjectResult(_personBusiness.Create(person));
         }
 
         // PUT: api/Person/5
-        [HttpPut("{id}")]
+        [HttpPut("v1/{id}")]
         public IActionResult Put(int id, [FromBody] Person person)
         {
             if (person == null)
             {
                 return BadRequest();
             }
-            return new ObjectResult(_personService.Update(person));
+
+            var updatedPerson = _personBusiness.Update(person);
+            if (updatedPerson == null)
+            {
+                return NoContent();
+            }
+
+            return new ObjectResult(_personBusiness.Update(person));
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("v1/{id}")]
         public IActionResult Delete(int id)
         {
-            _personService.Delete(id);
+            _personBusiness.Delete(id);
             return NoContent();
         }
     }

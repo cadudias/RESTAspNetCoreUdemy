@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace RESTAspNetCoreUdemy.Services.Implementations
+namespace RESTAspNetCoreUdemy.Repository.Implementations
 {
-    public class PersonService : IPersonService
+    public class PersonRepository : IPersonRepository
     {
         private readonly MySQLContext _context;
         private volatile int count;
 
-        public PersonService(MySQLContext context)
+        public PersonRepository(MySQLContext context)
         {
             _context = context;
         }
@@ -71,9 +71,9 @@ namespace RESTAspNetCoreUdemy.Services.Implementations
 
         public Person Update(Person person)
         {
-            if (!Exist(person.Id))
+            if (!Exists(person.Id))
             {
-                return new Person();
+                return null;
             }
 
             var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
@@ -88,11 +88,6 @@ namespace RESTAspNetCoreUdemy.Services.Implementations
                 throw ex;
             }
             return person;
-        }
-
-        private bool Exist(long? id)
-        {
-            return _context.Persons.Any(p => p.Id.Equals(id));
         }
 
         public void Delete(long id)
@@ -112,6 +107,11 @@ namespace RESTAspNetCoreUdemy.Services.Implementations
             {
                 throw ex;
             }
+        }
+
+        public bool Exists(long? id)
+        {
+            return _context.Persons.Any(p => p.Id.Equals(id));
         }
     }
 }
