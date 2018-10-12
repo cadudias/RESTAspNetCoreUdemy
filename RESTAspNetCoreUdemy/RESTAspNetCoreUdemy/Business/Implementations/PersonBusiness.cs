@@ -1,5 +1,5 @@
 ﻿using RESTAspNetCoreUdemy.Model;
-using RESTAspNetCoreUdemy.Repository;
+using RESTAspNetCoreUdemy.Repository.Generic;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -7,13 +7,13 @@ namespace RESTAspNetCoreUdemy.Business.Implementations
 {
     public class PersonBusiness : IPersonBusiness
     {
-        private readonly IPersonRepository _repository;
+        private IRepository<Person> _repository;
 
         // sai o contexto daqui e entra o repositorio
         //private readonly MySQLContext _context;
         private volatile int count;
 
-        public PersonBusiness(IPersonRepository repository)
+        public PersonBusiness(IRepository<Person> repository)
         {
             _repository = repository;
         }

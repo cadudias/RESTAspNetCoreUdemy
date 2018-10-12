@@ -3,14 +3,13 @@ using RESTAspNetCoreUdemy.Model.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace RESTAspNetCoreUdemy.Repository.Implementations
 {
     public class PersonRepository : IPersonRepository
     {
         private readonly MySQLContext _context;
-        private volatile int count;
+        private readonly int count;
 
         public PersonRepository(MySQLContext context)
         {
@@ -59,10 +58,10 @@ namespace RESTAspNetCoreUdemy.Repository.Implementations
         //    };
         //}
 
-        private long IncrementAndGet()
-        {
-            return Interlocked.Increment(ref count);
-        }
+        //private long IncrementAndGet()
+        //{
+        //    return Interlocked.Increment(ref count);
+        //}
 
         public Person FindById(long id)
         {

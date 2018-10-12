@@ -1,25 +1,26 @@
 ﻿using RESTAspNetCoreUdemy.Model.Base;
+using System;
 
 namespace RESTAspNetCoreUdemy.Model
 {
-    public class Person : BaseEntity
+    public class Book : BaseEntity
     {
-        public string FirstName
+        public string Title
         {
             get; set;
         }
 
-        public string LastName
+        public string Author
         {
             get; set;
         }
 
-        public string Address
+        public string Price
         {
             get; set;
         }
 
-        public string Gender
+        public DateTime LaunchDate
         {
             get; set;
         }

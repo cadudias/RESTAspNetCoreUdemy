@@ -9,6 +9,7 @@ using RESTAspNetCoreUdemy.Business;
 using RESTAspNetCoreUdemy.Business.Implementations;
 using RESTAspNetCoreUdemy.Model.Context;
 using RESTAspNetCoreUdemy.Repository;
+using RESTAspNetCoreUdemy.Repository.Generic;
 using RESTAspNetCoreUdemy.Repository.Implementations;
 using System;
 using System.Collections.Generic;
@@ -69,7 +70,12 @@ namespace RESTAspNetCoreUdemy
             }
 
             services.AddScoped<IPersonBusiness, PersonBusiness>();
+            services.AddScoped<IBookBusiness, BookBusiness>();
+
             services.AddScoped<IPersonRepository, PersonRepository>();
+
+            // é diferente pq é genérico
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
             services.AddApiVersioning();
 
