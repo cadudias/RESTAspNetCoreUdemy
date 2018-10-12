@@ -6,6 +6,7 @@ namespace RESTAspNetCoreUdemy.Controllers
 {
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:apiVersion}")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class PersonsController : ControllerBase
     {
@@ -16,15 +17,14 @@ namespace RESTAspNetCoreUdemy.Controllers
             _personBusiness = personBusiness;
         }
 
-        // GET: api/Person
-        [HttpGet("v1")]
+        [HttpGet]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
         }
 
         // GET: api/Person/5
-        [HttpGet("v1/{id}")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var person = _personBusiness.FindById(id);
@@ -37,7 +37,7 @@ namespace RESTAspNetCoreUdemy.Controllers
         }
 
         // POST: api/Person
-        [HttpPost("v1")]
+        [HttpPost]
         public IActionResult Post([FromBody] Person person)
         {
             if (person == null)
@@ -48,7 +48,7 @@ namespace RESTAspNetCoreUdemy.Controllers
         }
 
         // PUT: api/Person/5
-        [HttpPut("v1/{id}")]
+        [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Person person)
         {
             if (person == null)
@@ -66,7 +66,7 @@ namespace RESTAspNetCoreUdemy.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("v1/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             _personBusiness.Delete(id);
