@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTAspNetCoreUdemy.Business;
-using RESTAspNetCoreUdemy.Model;
+using RESTAspNetCoreUdemy.Data.VO;
 
 namespace RESTAspNetCoreUdemy.Controllers
 {
@@ -38,7 +38,7 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         // POST: api/Person
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null)
             {
@@ -49,7 +49,7 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         // PUT: api/Person/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Person person)
+        public IActionResult Put(int id, [FromBody] PersonVO person)
         {
             if (person == null)
             {

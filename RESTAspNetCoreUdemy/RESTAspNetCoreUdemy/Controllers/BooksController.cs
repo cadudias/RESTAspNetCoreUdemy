@@ -37,38 +37,38 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         // POST: api/Person
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] Book book)
         {
-            if (person == null)
+            if (book == null)
             {
                 return BadRequest();
             }
-            return new ObjectResult(_personBusiness.Create(person));
+            return new ObjectResult(_bookBusiness.Create(book));
         }
 
         // PUT: api/Person/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Person person)
+        public IActionResult Put(int id, [FromBody] Book book)
         {
-            if (person == null)
+            if (book == null)
             {
                 return BadRequest();
             }
 
-            var updatedPerson = _personBusiness.Update(person);
+            var updatedPerson = _bookBusiness.Update(book);
             if (updatedPerson == null)
             {
                 return NoContent();
             }
 
-            return new ObjectResult(_personBusiness.Update(person));
+            return new ObjectResult(_bookBusiness.Update(book));
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _personBusiness.Delete(id);
+            _bookBusiness.Delete(id);
             return NoContent();
         }
     }

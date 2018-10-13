@@ -1,75 +1,51 @@
-﻿using RESTAspNetCoreUdemy.Model;
+﻿using RESTAspNetCoreUdemy.Data.Converters;
+using RESTAspNetCoreUdemy.Data.VO;
+using RESTAspNetCoreUdemy.Model;
 using RESTAspNetCoreUdemy.Repository.Generic;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace RESTAspNetCoreUdemy.Business.Implementations
 {
     public class PersonBusiness : IPersonBusiness
     {
+        private readonly PersonConverter _converter;
+
         private IRepository<Person> _repository;
 
         // sai o contexto daqui e entra o repositorio
         //private readonly MySQLContext _context;
-        private volatile int count;
 
         public PersonBusiness(IRepository<Person> repository)
         {
             _repository = repository;
+            _converter = new PersonConverter();
         }
 
-        public Person Create(Person person)
+        public PersonVO Create(PersonVO person)
         {
             // regras de negocio ficam aqui na camada de business
 
-            return _repository.Create(person);
+            // aqui convertemos pra salvar e depois convertemos pra retornar pro controller
+            var personEntity = _converter.Parse(person);
+            personEntity = _repository.Create(personEntity);
+            return _converter.Parse(personEntity);
         }
 
-        public List<Person> FindAll()
+        public PersonVO Update(PersonVO person)
         {
-            return _repository.FindAll();
+            var personEntity = _converter.Parse(person);
+            personEntity = _repository.Update(personEntity);
+            return _converter.Parse(personEntity);
         }
 
-        #region Mocks
-
-        //public List<Person> FindAll()
-        //{
-        //    List<Person> persons = new List<Person>();
-        //    for (int i = 0; i < 8; i++)
-        //    {
-        //        Person person = MockPerson(i);
-        //        persons.Add(person);
-        //    }
-        //    return persons;
-        //}
-
-        //private Person MockPerson(int id)
-        //{
-        //    return new Person()
-        //    {
-        //        Id = IncrementAndGet(),
-        //        FirstName = "Person Name " + id,
-        //        LastName = "Person LastName " + id,
-        //        Address = "Avendia xyz, 345",
-        //        Gender = "Masculino"
-        //    };
-        //}
-
-        #endregion Mocks
-
-        private long IncrementAndGet()
+        public List<PersonVO> FindAll()
         {
-            return Interlocked.Increment(ref count);
+            return _converter.ParseList(_repository.FindAll());
         }
 
-        public Person FindById(long id)
+        public PersonVO FindById(long id)
         {
-            return _repository.FindById(id);
-        }
-
-        public Person Update(Person person)
-        {
-            return _repository.Update(person);
+            return _converter.Parse(_repository.FindById(id));
         }
 
         public void Delete(long id)
