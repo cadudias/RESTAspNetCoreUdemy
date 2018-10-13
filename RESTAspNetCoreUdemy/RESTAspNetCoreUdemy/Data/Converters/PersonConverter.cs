@@ -17,6 +17,7 @@ namespace RESTAspNetCoreUdemy.Data.Converters
 
             return new PersonVO()
             {
+                Id = origin.Id,
                 FirstName = origin.FirstName,
                 LastName = origin.LastName,
                 Address = origin.Address,
@@ -33,6 +34,7 @@ namespace RESTAspNetCoreUdemy.Data.Converters
 
             return new Person()
             {
+                Id = origin.Id,
                 FirstName = origin.FirstName,
                 LastName = origin.LastName,
                 Address = origin.Address,

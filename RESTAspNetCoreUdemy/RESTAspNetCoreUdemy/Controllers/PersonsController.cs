@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTAspNetCoreUdemy.Business;
 using RESTAspNetCoreUdemy.Data.VO;
+using Tapioca.HATEOAS;
 
 namespace RESTAspNetCoreUdemy.Controllers
 {
@@ -18,6 +19,7 @@ namespace RESTAspNetCoreUdemy.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());

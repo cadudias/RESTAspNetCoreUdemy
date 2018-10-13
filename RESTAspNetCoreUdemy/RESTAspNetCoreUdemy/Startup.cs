@@ -7,12 +7,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RESTAspNetCoreUdemy.Business;
 using RESTAspNetCoreUdemy.Business.Implementations;
+using RESTAspNetCoreUdemy.HyperMedia;
 using RESTAspNetCoreUdemy.Model.Context;
 using RESTAspNetCoreUdemy.Repository;
 using RESTAspNetCoreUdemy.Repository.Generic;
 using RESTAspNetCoreUdemy.Repository.Implementations;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using Tapioca.HATEOAS;
 
 namespace RESTAspNetCoreUdemy
 {
@@ -79,7 +82,18 @@ namespace RESTAspNetCoreUdemy
 
             services.AddApiVersioning();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ObjectContentResponseEnricherList.Add(new PersonEnricher());
+            services.AddSingleton(filterOptions);
+
+            // adiciona o formato possível de retorno como xml e json
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("text/xml").ToString());
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json").ToString());
+            }).AddXmlSerializerFormatters()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,7 +109,12 @@ namespace RESTAspNetCoreUdemy
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "DefaultApi",
+                    template: "{controller=Values}/{id?}");
+            });
         }
     }
 }
