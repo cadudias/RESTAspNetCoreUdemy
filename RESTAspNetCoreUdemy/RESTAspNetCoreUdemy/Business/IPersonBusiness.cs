@@ -1,5 +1,7 @@
 ﻿using RESTAspNetCoreUdemy.Data.VO;
+using RESTAspNetCoreUdemy.Model;
 using System.Collections.Generic;
+using Tapioca.HATEOAS.Utils;
 
 namespace RESTAspNetCoreUdemy.Business
 {
@@ -11,7 +13,11 @@ namespace RESTAspNetCoreUdemy.Business
 
         List<PersonVO> FindAll();
 
+        List<Person> FindByName(string firstname, string lastName);
+
         PersonVO Update(PersonVO person);
+
+        PagedSearchDTO<PersonVO> FindWithPagedSearch(string name, string sortDirection, int pageSize, int page);
 
         void Delete(long id);
     }

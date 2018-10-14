@@ -1,116 +1,35 @@
 ﻿using RESTAspNetCoreUdemy.Model;
 using RESTAspNetCoreUdemy.Model.Context;
-using System;
+using RESTAspNetCoreUdemy.Repository.Generic;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace RESTAspNetCoreUdemy.Repository.Implementations
 {
-    public class PersonRepository : IPersonRepository
+    public class PersonRepository : GenericRepository<Person>, IPersonRepository
     {
-        private readonly MySQLContext _context;
-        private readonly int count;
-
-        public PersonRepository(MySQLContext context)
+        public PersonRepository(MySQLContext context) : base(context)
         {
-            _context = context;
         }
 
-        public Person Create(Person person)
+        public List<Person> FindByName(string firstname, string lastName)
         {
-            try
+            if (!string.IsNullOrEmpty(firstname) && !string.IsNullOrEmpty(lastName))
             {
-                _context.Add(person);
-                _context.SaveChanges();
+                return _context.Persons.Where(q => q.FirstName.Contains(firstname) && q.LastName.Contains(lastName)).ToList();
             }
-            catch (Exception ex)
+            else if (!string.IsNullOrEmpty(firstname) && string.IsNullOrEmpty(lastName))
             {
-                throw ex;
+                return _context.Persons.Where(q => q.FirstName.Contains(firstname)).ToList();
             }
-            return person;
-        }
-
-        public List<Person> FindAll()
-        {
-            return _context.Persons?.ToList();
-        }
-
-        //public List<Person> FindAll()
-        //{
-        //    List<Person> persons = new List<Person>();
-        //    for (int i = 0; i < 8; i++)
-        //    {
-        //        Person person = MockPerson(i);
-        //        persons.Add(person);
-        //    }
-        //    return persons;
-        //}
-
-        //private Person MockPerson(int id)
-        //{
-        //    return new Person()
-        //    {
-        //        Id = IncrementAndGet(),
-        //        FirstName = "Person Name " + id,
-        //        LastName = "Person LastName " + id,
-        //        Address = "Avendia xyz, 345",
-        //        Gender = "Masculino"
-        //    };
-        //}
-
-        //private long IncrementAndGet()
-        //{
-        //    return Interlocked.Increment(ref count);
-        //}
-
-        public Person FindById(long id)
-        {
-            return _context.Persons.Find(id);
-        }
-
-        public Person Update(Person person)
-        {
-            if (!Exists(person.Id))
+            else if (string.IsNullOrEmpty(firstname) && !string.IsNullOrEmpty(lastName))
             {
-                return null;
+                return _context.Persons.Where(q => q.LastName.Contains(lastName)).ToList();
             }
-
-            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
-
-            try
+            else
             {
-                _context.Entry(result).CurrentValues.SetValues(person);
-                _context.SaveChanges();
+                return _context.Persons.ToList();
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return person;
-        }
-
-        public void Delete(long id)
-        {
-            var result = _context.Persons.Find(id);
-
-            try
-            {
-                if (result != null)
-                {
-                    _context.Persons.Remove(result);
-
-                    _context.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public bool Exists(long? id)
-        {
-            return _context.Persons.Any(p => p.Id.Equals(id));
         }
     }
 }

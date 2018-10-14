@@ -11,6 +11,10 @@ namespace RESTAspNetCoreUdemy.Repository.Generic
 
         List<T> FindAll();
 
+        List<T> FindWithPagedSearch(string query);
+
+        int GetCount(string query);
+
         T Update(T item);
 
         void Delete(long id);

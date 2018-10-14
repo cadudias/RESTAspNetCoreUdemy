@@ -1,20 +1,15 @@
 ﻿using RESTAspNetCoreUdemy.Model;
+using RESTAspNetCoreUdemy.Repository.Generic;
 using System.Collections.Generic;
 
 namespace RESTAspNetCoreUdemy.Repository
 {
-    public interface IPersonRepository
+    /**
+     * Foi criada uma Interface nova já que FindByName é um metodo especifico de pessoa
+     **/
+
+    public interface IPersonRepository : IRepository<Person>
     {
-        Person Create(Person person);
-
-        Person FindById(long id);
-
-        List<Person> FindAll();
-
-        Person Update(Person person);
-
-        void Delete(long id);
-
-        bool Exists(long? id);
+        List<Person> FindByName(string firstname, string lastName);
     }
 }
