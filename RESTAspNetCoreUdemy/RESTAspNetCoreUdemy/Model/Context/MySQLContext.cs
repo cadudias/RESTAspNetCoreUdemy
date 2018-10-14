@@ -16,5 +16,10 @@ namespace RESTAspNetCoreUdemy.Model.Context
         {
             get; set;
         }
+
+        public DbSet<User> Users
+        {
+            get; set;
+        }
     }
 }

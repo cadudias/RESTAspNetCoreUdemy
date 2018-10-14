@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RESTAspNetCoreUdemy.Business;
 using RESTAspNetCoreUdemy.Data.VO;
 using Tapioca.HATEOAS;
@@ -20,6 +21,7 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         [HttpGet]
         [TypeFilter(typeof(HyperMediaFilter))]
+        [Authorize("Bearer")]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
@@ -27,6 +29,8 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         // GET: api/Person/5
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        [Authorize("Bearer")]
         public IActionResult Get(int id)
         {
             var person = _personBusiness.FindById(id);
@@ -40,6 +44,7 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         // POST: api/Person
         [HttpPost]
+        [Authorize("Bearer")]
         public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null)
@@ -51,6 +56,7 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         // PUT: api/Person/5
         [HttpPut("{id}")]
+        [Authorize("Bearer")]
         public IActionResult Put(int id, [FromBody] PersonVO person)
         {
             if (person == null)
@@ -69,6 +75,7 @@ namespace RESTAspNetCoreUdemy.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [Authorize("Bearer")]
         public IActionResult Delete(int id)
         {
             _personBusiness.Delete(id);
